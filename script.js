@@ -34,7 +34,7 @@ form.addEventListener('submit', async (event) => {
   const lead = Object.fromEntries(new FormData(form).entries());
   lead.type = 'lead';
   lead.leadId = `LF-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
-  lead.package = document.querySelector('select[name="project"]').dataset.selectedPackage || 'Ще не обрано';
+  lead.package = lead.packageChoice || document.querySelector('select[name="project"]').dataset.selectedPackage || 'Потрібна порада';
   try {
     await fetch(automationEndpoint, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(lead) });
     briefLink.href = `brief.html?lead=${encodeURIComponent(lead.leadId)}`;

@@ -24,19 +24,20 @@ document.querySelectorAll('[data-package]').forEach(link => link.addEventListene
 
 const form = document.querySelector('#lead-form');
 const modal = document.querySelector('#success-modal');
+const automationEndpoint = 'https://script.google.com/macros/s/AKfycbygSyNGuOqX17IuoKYiVFpMKBbO7Nr34Px_SJ1J9Bfs3ZHmfjrCRP_l6ENg_TbcZfzU/exec';
+const briefLink = document.querySelector('.modal-brief');
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   if (!form.checkValidity()) { form.reportValidity(); return; }
   const button = form.querySelector('[type="submit"]');
   button.innerHTML = 'Надсилаємо <span>…</span>'; button.disabled = true;
   const lead = Object.fromEntries(new FormData(form).entries());
+  lead.type = 'lead';
+  lead.leadId = `LF-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
   lead.package = document.querySelector('select[name="project"]').dataset.selectedPackage || 'Ще не обрано';
-  /* Для запуску підключіть endpoint: window.LIDFORMA_CONFIG = { leadEndpoint: '/api/leads' }.
-     Тоді форма передасть дані до CRM / Telegram-бота через ваш сервер. */
   try {
-    if (window.LIDFORMA_CONFIG?.leadEndpoint) {
-      await fetch(window.LIDFORMA_CONFIG.leadEndpoint, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(lead) });
-    }
+    await fetch(automationEndpoint, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(lead) });
+    briefLink.href = `brief.html?lead=${encodeURIComponent(lead.leadId)}`;
     modal.classList.add('show'); modal.setAttribute('aria-hidden', 'false'); form.reset();
   } catch (error) { alert('Не вдалося надіслати форму. Спробуйте ще раз або напишіть нам у Telegram.'); }
   finally { button.innerHTML = 'Надіслати заявку <span>↗</span>'; button.disabled = false; }

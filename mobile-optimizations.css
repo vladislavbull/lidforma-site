@@ -17,7 +17,7 @@
   .orb-one{width:330px;height:330px;bottom:-145px}
   .orb-two{width:145px;height:145px;right:170px;bottom:30px}
   .label-a{left:7px;bottom:62px;transform:scale(.9) rotate(-6deg);transform-origin:left bottom}
-  .label-b{display:block;right:2px;bottom:13px;transform:scale(.72) rotate(4deg);transform-origin:right bottom}
+  .label-b{display:block;right:68px;bottom:18px;transform:scale(.78) rotate(4deg);transform-origin:right bottom}
 }
 @keyframes mobile-lead-float{50%{transform:scale(.70) rotate(7deg) translateY(-7px)}}
 @keyframes lead-status-pulse{50%{transform:scale(1.35);box-shadow:0 0 0 7px rgba(206,255,59,.16)}}

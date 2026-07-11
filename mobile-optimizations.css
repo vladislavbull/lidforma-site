@@ -5,13 +5,16 @@
 @media (hover:none){.button:hover,.submit-button:hover{background:var(--ink);transform:none}.submit-button:hover{background:var(--blue)}.price-card:hover{transform:none}.step:hover{padding-left:0;background:transparent}}
 @media (max-width:380px){.topbar{padding-left:16px;padding-right:16px}.header-cta{font-size:10px}.hero{min-height:665px}.price-card h3{font-size:22px}.mobile-cta{padding:0 16px}}
 
-/* Keep the lead visual expressive without competing with the first mobile CTA. */
+/* Mobile hero: preserve the desktop art direction without letting it cover the CTA. */
 @media (max-width:800px){
-  .hero-art{width:350px;height:335px;right:-72px;bottom:-135px;opacity:.86}
-  .lead-card{right:48px;top:118px;transform:scale(.58) rotate(7deg);transform-origin:center}
+  body{padding-bottom:0}
+  .mobile-cta{display:none!important}
+  .hero{min-height:840px}
+  .hero-art{width:390px;height:365px;right:-42px;bottom:-28px;opacity:.95}
+  .lead-card{right:45px;top:45px;transform:scale(.68) rotate(7deg);transform-origin:center}
   .lead-card.float{animation:mobile-lead-float 7s ease-in-out infinite}
-  .orb-one{width:300px;height:300px;bottom:-150px}
-  .orb-two{width:128px;height:128px;right:150px;bottom:24px}
-  .label-a{left:8px;bottom:47px;transform:scale(.86) rotate(-6deg);transform-origin:left bottom}
+  .orb-one{width:330px;height:330px;bottom:-145px}
+  .orb-two{width:145px;height:145px;right:170px;bottom:30px}
+  .label-a{left:7px;bottom:62px;transform:scale(.9) rotate(-6deg);transform-origin:left bottom}
 }
-@keyframes mobile-lead-float{50%{transform:scale(.58) rotate(7deg) translateY(-7px)}}
+@keyframes mobile-lead-float{50%{transform:scale(.68) rotate(7deg) translateY(-7px)}}

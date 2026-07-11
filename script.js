@@ -24,7 +24,7 @@ document.querySelectorAll('[data-package]').forEach(link => link.addEventListene
 
 const form = document.querySelector('#lead-form');
 const modal = document.querySelector('#success-modal');
-const automationEndpoint = 'https://script.google.com/macros/s/AKfycbxPSePT32UoF0EDFVZiSUZmy4Dba24MtH_9pgCOXWvR3OJUyYvtYVea5EPDEtlo8CVd/exec';
+const automationEndpoint = 'https://script.google.com/macros/s/AKfycbyY7bBVxuMsxvBfcgOOkHZWxun9mSWdzRSx-aNmYhruv6PtrNcYII6tVmjLyyFlshQj/exec';
 const briefLink = document.querySelector('.modal-brief');
 form.addEventListener('submit', async (event) => {
   event.preventDefault();

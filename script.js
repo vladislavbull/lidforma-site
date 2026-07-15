@@ -37,6 +37,7 @@ form.addEventListener('submit', async (event) => {
   lead.package = lead.packageChoice || document.querySelector('select[name="project"]').dataset.selectedPackage || 'Потрібна порада';
   try {
     await fetch(automationEndpoint, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(lead) });
+    if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: lead.project, content_category: lead.package });
     briefLink.href = `brief.html?lead=${encodeURIComponent(lead.leadId)}`;
     modal.classList.add('show'); modal.setAttribute('aria-hidden', 'false'); form.reset();
   } catch (error) { alert('Не вдалося надіслати форму. Спробуйте ще раз або напишіть нам у Telegram.'); }

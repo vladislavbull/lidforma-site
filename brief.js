@@ -3,6 +3,13 @@
 fbq('init','1999638007347637');
 fbq('track','PageView');
 
+const brandStyle=document.createElement('style');
+brandStyle.textContent=`
+  .brand .mark{position:relative;display:block;width:25px;height:25px;border:4px solid #315cff;border-radius:6px;background:transparent;color:transparent;font-size:0}
+  .brand .mark::before{content:"";position:absolute;left:5px;top:4px;width:11px;height:3px;border-radius:3px;background:#315cff;box-shadow:0 5px 0 #315cff,0 10px 0 #171a23}
+`;
+document.head.appendChild(brandStyle);
+
 const steps=[...document.querySelectorAll('.step')];
 const next=document.querySelector('#next');
 const back=document.querySelector('#back');

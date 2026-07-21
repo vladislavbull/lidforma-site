@@ -1,7 +1,27 @@
 (() => {
+  const GA4_MEASUREMENT_ID = 'G-X11D9MZW76';
+  const CLARITY_PROJECT_ID = 'xpu6f8fka8';
   const ATTRIBUTION_KEY = 'lidforma_attribution_v1';
   const ONCE_PREFIX = 'lidforma_event_once_';
   const TRACKED_PARAMS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'];
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function gtag() { window.dataLayer.push(arguments); };
+  window.gtag('js', new Date());
+  window.gtag('config', GA4_MEASUREMENT_ID, { send_page_view: true });
+
+  const googleTag = document.createElement('script');
+  googleTag.async = true;
+  googleTag.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`;
+  document.head.appendChild(googleTag);
+
+  window.clarity = window.clarity || function clarity() {
+    (window.clarity.q = window.clarity.q || []).push(arguments);
+  };
+  const clarityTag = document.createElement('script');
+  clarityTag.async = true;
+  clarityTag.src = `https://www.clarity.ms/tag/${CLARITY_PROJECT_ID}`;
+  document.head.appendChild(clarityTag);
 
   const safeStorage = {
     get(key) {
@@ -49,7 +69,12 @@
   function dispatch(eventName, params = {}, standard = false) {
     const payload = normalizeParams(params);
     if (typeof window.fbq === 'function') window.fbq(standard ? 'track' : 'trackCustom', eventName, payload);
-    if (typeof window.gtag === 'function') window.gtag('event', eventName, payload);
+    const gaEventName = eventName === 'Lead'
+      ? 'generate_lead'
+      : eventName === 'CompleteRegistration'
+        ? 'brief_complete'
+        : eventName.replace(/([a-z0-9])([A-Z])/g, '$1_$2').toLowerCase();
+    if (typeof window.gtag === 'function') window.gtag('event', gaEventName, payload);
     if (typeof window.clarity === 'function') window.clarity('event', eventName);
   }
 

@@ -29,6 +29,7 @@
   const automationEndpoint = 'https://script.google.com/macros/s/AKfycbzAOYiXTkA90rbTYyGV15uk7dJ7IbtA9herqE6teOzLO8j9zh7HnOGvANfoX0JxTTM/exec';
   const labels = ['Знайомство', 'Аудиторія й ціль', 'Сенс і візуал', 'Матеріали й запуск'];
   let active = 0;
+  let isSubmitting = false;
 
   function draw() {
     steps.forEach((step, index) => step.classList.toggle('active', index === active));
@@ -73,7 +74,14 @@
 
   form.onsubmit = async event => {
     event.preventDefault();
+    if (isSubmitting) return;
     if (!valid()) return;
+    isSubmitting = true;
+    send.disabled = true;
+    send.setAttribute('aria-disabled', 'true');
+    form.setAttribute('aria-busy', 'true');
+    const originalSubmitLabel = send.innerHTML;
+    send.innerHTML = 'Надсилаємо… <b>↗</b>';
     analytics?.trackCustom('BriefStepComplete', { step: 4, step_name: labels[3] });
     const data = Object.fromEntries(new FormData(event.target).entries());
     data.type = 'brief';
@@ -92,6 +100,11 @@
       analytics?.trackStandard('CompleteRegistration', { content_name: 'Project brief' });
       document.querySelector('#thanks').classList.add('show');
     } catch {
+      isSubmitting = false;
+      send.disabled = false;
+      send.removeAttribute('aria-disabled');
+      form.removeAttribute('aria-busy');
+      send.innerHTML = originalSubmitLabel;
       analytics?.trackCustom('BriefSubmitError', { error_type: 'network' });
       alert('Не вдалося надіслати бриф. Спробуйте ще раз.');
     }
